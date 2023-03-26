@@ -14,7 +14,6 @@ function App() {
   let [message, setMessage] = useState('Search for Music!')
   let [search, setSearch] = useState ('The Gorillaz')
 
-  // const API_URL = 
 
   
   useEffect(() => {

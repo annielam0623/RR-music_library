@@ -8,9 +8,9 @@ export function SearchBar({ setSearch }) {
             setQuery(e.target.value)
         }
 
-        useEffect (() => {
-            setSearch(query)
-        }, [query])
+        // useEffect (() => {
+        //     setSearch(query)
+        // }, [query])
 
         const handleSubmit = (e) => {
             e.preventDefault()
