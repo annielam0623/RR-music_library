@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,  useContext } from 'react';
+import { SearchContext } from '../context/SearchContext';
 
 
-export function SearchBar({ setSearch }) {
-        const [query, setQuery] = useState('');
+export function SearchBar( props) {
 
-        const handleChange = (e) => {
-            setQuery(e.target.value)
-        }
+        const { ref, fetchData } = useContext(SearchContext);
 
-        // useEffect (() => {
+        // const [query, setQuery] = useState('');
+        // // useEffect (() => {
         //     setSearch(query)
         // }, [query])
 
         const handleSubmit = (e) => {
             e.preventDefault()
-            setSearch(query)
+            fetchData(ref.current.value)
+            
         }
 
     return(
         <form onSubmit={{handleSubmit}}>
-            <input type="text" value={ query } onChange={handleChange} />
+            <input type="text" ref={ref} />
             {/* <button onClick={(e) =>handleSearch(e, term.current.value) }  >submit</button> */}
             <input type="submit" value="Search here" />
             

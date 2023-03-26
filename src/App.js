@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Gallery } from './components/Gallery'
 import { SearchBar } from './components/SearchBar'
+import { Wrapper } from './components/Wrapper'
+import { DataContext } from './context/DataContext'
+import {SearchContext } from './context/SearchContext'
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav'
 
@@ -9,14 +12,17 @@ import Nav from 'react-bootstrap/Nav'
 
 
 function App() {
-
-  let [data, setData] = useState([])
+  let [DataContext, setData] = useState([])
   let [message, setMessage] = useState('Search for Music!')
-  let [search, setSearch] = useState ('The Gorillaz')
+  
+  let numberRef = useRef[0];
+  let inputRef = useRef();
+
 
 
   
-  useEffect(() => {
+  const fetchData=(search) => {
+    document.title = inputRef.value
 		fetch(`https://itunes.apple.com/search?term=${search}`)
 			.then((response) => response.json())
 			.then(({resultCount, results}) => {
@@ -25,14 +31,19 @@ function App() {
 				setMessage(resultCount ? successMessage : errorMessage);
 				setData(results);
 			});
-	}, [search]);
+	}
 
  
 return (
   <div>
-      <SearchBar setSearch={ setSearch} />
+    <SearchContext.provider value={{ref: inputRef, fetchData}} >
+      <SearchBar  />
+      </SearchContext.provider>
       {message}
-      <Gallery data={data} />
+      <DataContext.provider value={data}>
+      <Wrapper/>
+      </DataContext.provider>
+      <Gallery  />
   </div>
 )
 }
