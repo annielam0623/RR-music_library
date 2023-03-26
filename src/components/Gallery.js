@@ -1,23 +1,15 @@
-import { useContext } from 'react'
-import { DataContext } from '../context/DataContext'
-import GalleryItem from './GalleryItem'
+
+import { GalleryItem } from './GalleryItem'
 
 
 
-const Gallery = () => {
-    const data = useContext(DataContext)
-
-    const display = data.map((item, index) => {
-        return (
-            <GalleryItem  key={index} item={item} />
-           
-        )
-    })
+export function Gallery({data}) {
+    const songs = data.filter((result) => result.kind === "song") 
+    
     return (
         <div>
-            { display }
+            { songs.map((song) => <GalleryItem song={ song } key={ song.trackId} />) }
         </div>
     )
 }
 
-export default Gallery

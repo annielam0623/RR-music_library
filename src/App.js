@@ -1,47 +1,39 @@
-import { useState, useRef } from 'react'
-import Gallery from './components/Gallery'
-import SearchBar from './components/SearchBar'
-import { DataContext } from './context/DataContext'
-import { SearchContext } from './context/SearchContext'
+import { useState, useEffect } from 'react'
+import { Gallery } from './components/Gallery'
+import { SearchBar } from './components/SearchBar'
+import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav'
+
+
+
+
 
 function App() {
 
   let [data, setData] = useState([])
   let [message, setMessage] = useState('Search for Music!')
-  let searchInput = useRef('')
+  let [search, setSearch] = useState ('The Gorillaz')
 
-  const API_URL = 'http://itunes.apple.com/search?term='
+  // const API_URL = 
 
-  const handleSearch = (e, term, ) => {
-    e.preventDefault()
-    const fetchData = async () => {
-      document.title = `${term} Music`
-      const response = await fetch(API_URL + term)
-      const resData = await response.json()
-      if (resData.results.length > 0) {
-        return setData(resData.results)
-        } else {
-          return setMessage('Not Found')
-        }
-    }
-    fetchData()
-  }
+  
+  useEffect(() => {
+		fetch(`https://itunes.apple.com/search?term=${search}`)
+			.then((response) => response.json())
+			.then(({resultCount, results}) => {
+				const successMessage = `Successfully fetched ${resultCount} result(s)!`;
+				const errorMessage = 'Not found';
+				setMessage(resultCount ? successMessage : errorMessage);
+				setData(results);
+			});
+	}, [search]);
 
-
-
+ 
 return (
-  <div className='App'>
-    <SearchContext.Provider value={{
-      term: searchInput,
-      handleSearch: handleSearch
-    }}>
-      <SearchBar />
-    </SearchContext.Provider>
-    {message}
-    <DataContext.Provider value={data} >
-
-      <Gallery />
-    </DataContext.Provider>
+  <div>
+      <SearchBar setSearch={ setSearch} />
+      {message}
+      <Gallery data={data} />
   </div>
 )
 }
