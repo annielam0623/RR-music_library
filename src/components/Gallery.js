@@ -4,9 +4,9 @@ import { GalleryItem } from './GalleryItem'
 
 
 
-export function Gallery(props) {
+export function Gallery({ data }) {
 
-    const data = useContext(DataContext)
+   
     const songs = data.filter((result) => result.kind === "song") 
     
     return (

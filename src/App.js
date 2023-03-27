@@ -1,53 +1,52 @@
-import { useState, useEffect, useRef } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Gallery } from './components/Gallery'
 import { SearchBar } from './components/SearchBar'
-import { Wrapper } from './components/Wrapper'
-import { DataContext } from './context/DataContext'
-import {SearchContext } from './context/SearchContext'
-import Button from 'react-bootstrap/Button';
-import Nav from 'react-bootstrap/Nav'
-
-
-
+import { AlbumView } from './components/albumView'
+import { ArtistView } from './components/artistView'
 
 
 function App() {
-  let [DataContext, setData] = useState([])
+
+  let [data, setData] = useState([])
   let [message, setMessage] = useState('Search for Music!')
-  
-  let numberRef = useRef[0];
-  let inputRef = useRef();
+  let [search, setSearch] = useState('The Gorillaz')
+
+  // const API_URL = 
 
 
+  useEffect(() => {
+    fetch(`https://itunes.apple.com/search?term=${search}`)
+      .then((response) => response.json())
+      .then(({ resultCount, results }) => {
+        const successMessage = `Successfully fetched ${resultCount} result(s)!`;
+        const errorMessage = 'Not found';
+        setMessage(resultCount ? successMessage : errorMessage);
+        setData(results);
+      });
+  }, [search]);
 
-  
-  const fetchData=(search) => {
-    document.title = inputRef.value
-		fetch(`https://itunes.apple.com/search?term=${search}`)
-			.then((response) => response.json())
-			.then(({resultCount, results}) => {
-				const successMessage = `Successfully fetched ${resultCount} result(s)!`;
-				const errorMessage = 'Not found';
-				setMessage(resultCount ? successMessage : errorMessage);
-				setData(results);
-			});
-	}
 
- 
-return (
-  <div>
-    <SearchContext.provider value={{ref: inputRef, fetchData}} >
-      <SearchBar  />
-      </SearchContext.provider>
-      {message}
-      <DataContext.provider value={data}>
-      <Wrapper/>
-      </DataContext.provider>
-      <Gallery  />
-  </div>
-)
+  return (
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={
+            <Fragment>
+            <SearchBar setSearch={setSearch} />
+             {message}
+            <Gallery data={data} />
+            </Fragment>
+      } />
+
+      <Route path="/album/:id" element={<AlbumView  />} />
+      <Route path="/artist/:id" element={<ArtistView  />} />
+
+        </Routes>
+      </BrowserRouter>
+    </div>
+  )
 }
 
 export default App
-
 

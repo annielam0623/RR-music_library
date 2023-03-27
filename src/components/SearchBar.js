@@ -2,7 +2,7 @@ import { useState, useEffect,  useContext } from 'react';
 import { SearchContext } from '../context/SearchContext';
 
 
-export function SearchBar( props) {
+export function SearchBar(props) {
 
         const { ref, fetchData } = useContext(SearchContext);
 
