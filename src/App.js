@@ -33,14 +33,14 @@ function App() {
         <Routes>
           <Route path='/' element={
             <Fragment>
-            <SearchBar setSearch={setSearch} />
-             {message}
-            <Gallery data={data} />
+              <SearchBar setSearch={setSearch} />
+              {message}
+              <Gallery data={data} />
             </Fragment>
-      } />
+          } />
 
-      <Route path="/album/:id" element={<AlbumView  />} />
-      <Route path="/artist/:id" element={<ArtistView  />} />
+          <Route path="/album/:id" element={<AlbumView />} />
+          <Route path="/artist/:id" element={<ArtistView />} />
 
         </Routes>
       </BrowserRouter>
