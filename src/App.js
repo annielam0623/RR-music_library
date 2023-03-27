@@ -4,6 +4,7 @@ import { Gallery } from './components/Gallery'
 import { SearchBar } from './components/SearchBar'
 import { AlbumView } from './components/albumView'
 import { ArtistView } from './components/artistView'
+import { Nav } from './components/Nav'
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+      <Nav />
         <Routes>
           <Route path='/' element={
             <Fragment>
