@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { Gallery } from './components/Gallery'
 import { SearchBar } from './components/SearchBar'
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav'
+import { createResource as fetchData } from './helper'
+import { Spinner } from 'react-bootstrap';
+
 
 
 
@@ -10,7 +13,7 @@ import Nav from 'react-bootstrap/Nav'
 
 function App() {
 
-  let [data, setData] = useState([])
+  let [data, setData] = useState(null)
   let [message, setMessage] = useState('Search for Music!')
   let [search, setSearch] = useState ('The Gorillaz')
 
@@ -18,22 +21,39 @@ function App() {
 
   
   useEffect(() => {
-		fetch(`https://itunes.apple.com/search?term=${search}`)
-			.then((response) => response.json())
-			.then(({resultCount, results}) => {
-				const successMessage = `Successfully fetched ${resultCount} result(s)!`;
-				const errorMessage = 'Not found';
-				setMessage(resultCount ? successMessage : errorMessage);
-				setData(results);
-			});
-	}, [search]);
+      if (searchTerm) {
+          setData(fetchData(searchTerm))
+      }
+    }, [searchTerm])
+
+
+
+	// 	fetch(`https://itunes.apple.com/search?term=${search}`)
+	// 		.then((response) => response.json())
+	// 		.then(({resultCount, results}) => {
+	// 			const successMessage = `Successfully fetched ${resultCount} result(s)!`;
+	// 			const errorMessage = 'Not found';
+	// 			setMessage(resultCount ? successMessage : errorMessage);
+	// 			setData(results);
+	// 		});
+	// }, [search]);
 
  
+  const renderGallery = () => {
+    if(data){
+        return (
+            <Suspense fallback={<Spinner />}>
+                <Gallery data={data} />
+            </Suspense>
+        )
+    }
+}
+
 return (
-  <div>
-      <SearchBar setSearch={ setSearch} />
+  <div className="App">
+      <SearchBar handleSearch={handleSearch} />
       {message}
-      <Gallery data={data} />
+      {renderGallery()}
   </div>
 )
 }
