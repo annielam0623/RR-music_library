@@ -5,15 +5,14 @@ import { SearchBar } from './components/SearchBar'
 import { AlbumView } from './components/albumView'
 import { ArtistView } from './components/artistView'
 import { Nav } from './components/Nav'
+import './App.css'
 
 
 function App() {
 
   let [data, setData] = useState([])
-  let [message, setMessage] = useState('Search for Music!')
-  let [search, setSearch] = useState('The Gorillaz')
-
-  // const API_URL = 
+  let [message, setMessage] = useState('')
+  let [search, setSearch] = useState('')
 
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function App() {
 
 
   return (
-    <div>
+    <div className='App'>
       <BrowserRouter>
       <Nav />
         <Routes>

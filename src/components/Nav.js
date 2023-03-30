@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-
+import Button from 'react-bootstrap/Button'
 
 export function Nav (props) {
     let nav = useNavigate();
@@ -9,7 +9,7 @@ export function Nav (props) {
     }
 
     function navigateForward() {
-        nav(1);
+        nav(+1);
     }
     return (
         <div>

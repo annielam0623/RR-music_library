@@ -5,6 +5,7 @@ export function GalleryItem({ song }) {
     const {
         trackName,
         collectionId,
+        collectionName,
         primaryGereName,
         releaseDate,
         artworkUrl100,
@@ -32,14 +33,14 @@ export function GalleryItem({ song }) {
         'backgroundSize': 'cover',
         'color': 'yellow'
     }
-    const handleClick = () => {
+    const handleClick = (e) => {
         setIsExpanded(!isExpanded)
     }
 
     const simpleView = (
-        <div style={ simpleStyle }>
-            <h3>{ trackName }</h3>
-            <h4>{ artistName }</h4>
+        <div style={ simpleStyle }  onClick={handleClick}>            
+             <h3>{ trackName }</h3>
+             <h4>{ artistName }</h4>
         </div>
     )
 
@@ -47,23 +48,23 @@ export function GalleryItem({ song }) {
         <div style={ detailStyle } onClick={ handleClick }>
             <h2>{ trackName }</h2>
             <h3>
-                <Link to={`/artist/${artistName}`} >
+                <Link to={`/artist/${artistId}`} >
                     {artistName}
                 </Link>
             </h3>
             <h3>
                 <Link to={`/album/${collectionId}`}>
-                    { collectionId }
+                    { collectionName }
                 </Link>
             </h3>
             <h4>{ primaryGereName }</h4>
             <h4>{ releaseDate }</h4>
         </div>
-    )
+   )
 
 
     return (
-        <div onClick={() =>setIsExpanded(!isExpanded)} style={{'display' : 'inline-block'}} >
+        <div style={{'display' : 'inline-block'}} >
             {isExpanded ? detailView : simpleView }
         </div>
     )
